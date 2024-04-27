@@ -1,0 +1,35 @@
+package swethabvrit.edu.todolistandroidapp
+
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
+import swethabvrit.edu.todolistandroidapp.databinding.TaskItemCellBinding
+class TaskItemAdapter(
+    private val taskItems: List<TaskItem>,
+    private val clickListener: TaskItemListener
+): RecyclerView.Adapter<TaskItemAdapter.TaskItemViewHolder>() {
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskItemViewHolder {
+        val inflater = LayoutInflater.from(parent.context)
+        val binding = TaskItemCellBinding.inflate(inflater, parent, false)
+        return TaskItemViewHolder(binding, clickListener)
+    }
+
+    override fun onBindViewHolder(holder: TaskItemViewHolder, position: Int) {
+        holder.bindTaskItem(taskItems[position])
+    }
+
+    override fun getItemCount(): Int = taskItems.size
+
+    inner class TaskItemViewHolder(
+        private val binding: TaskItemCellBinding,
+        private val clickListener: TaskItemListener
+    ) : RecyclerView.ViewHolder(binding.root) {
+
+        fun bindTaskItem(taskItem: TaskItem) {
+            binding.taskItem = taskItem
+            binding.clickListener = clickListener
+            binding.executePendingBindings()
+        }
+    }
+}
